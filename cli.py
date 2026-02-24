@@ -1,4 +1,4 @@
-from inventory import load_servers, save_servers, INVENTORY_FILE
+from inventory import load_servers, save_servers, INVENTORY_FILE, add_server
 
 def show_menu():
     print("\n--- Server Inventory Menu ---")
@@ -18,8 +18,19 @@ def run():
         choice = get_choice()
 
         if choice == "1":
-            print("add server")
+            hostname = input("Enter hostname: ").strip()
+            ip_address = input("Enter ip address: ").strip()
+            if not hostname or not ip_address:
+                print("Error, empty value not accepted")
+                continue
+            if add_server(servers, hostname, ip_address):
+                print(f"Success! Added {hostname}")
+            else:
+                print(f"Error, {hostname} already exists")
+
         elif choice == "2":
+        #    for server in servers:
+        #        print(server.hostname)
             print("list servers")
         elif choice == "3":
             print("toggle server")

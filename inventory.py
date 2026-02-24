@@ -17,7 +17,7 @@ def load_servers(filepath):
                                 ip_address=row["ip_address"],
                                 status=row["status"],)
                                 )
-
+                print(row)
         return servers
     except FileNotFoundError:
                 print("Loading inventory... No existing inventory.csv found. Starting fresh.")
@@ -40,3 +40,11 @@ def save_servers(filepath, servers):
 
     except OSError as e:
          print(f"Error: Could not write to {filepath}: {e}")
+
+def add_server(servers, hostname, ip_address):
+    for server in servers:
+        if server.hostname == hostname:
+            return False
+    servers.append(Server(hostname, ip_address))
+    return True
+
