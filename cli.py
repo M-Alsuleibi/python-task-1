@@ -1,4 +1,4 @@
-# cli.py
+from inventory import load_servers, save_servers, INVENTORY_FILE
 
 def show_menu():
     print("\n--- Server Inventory Menu ---")
@@ -11,6 +11,8 @@ def get_choice():
     return input("\nEnter choice: ").strip()
 
 def run():
+    servers = load_servers(INVENTORY_FILE)
+
     while True:
         show_menu()
         choice = get_choice()
@@ -22,6 +24,7 @@ def run():
         elif choice == "3":
             print("toggle server")
         elif choice == "4":
+            save_servers(INVENTORY_FILE, servers)
             print("Goodbye!")
             break
         else:
