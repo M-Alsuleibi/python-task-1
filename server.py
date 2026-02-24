@@ -6,7 +6,13 @@ class Server:
 
     def start(self):
         self.status = "running"
-        
+
     def stop(self):
         self.status = "stopped"
-
+    # to be used in list_servers print statement
+    def __repr__(self):
+            return (
+                f"Hostname: {self.hostname} | "
+                f"IP: {self.ip_address} | "
+                f"Status: {self.status}"
+            )

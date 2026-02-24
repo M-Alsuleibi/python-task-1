@@ -48,3 +48,8 @@ def add_server(servers, hostname, ip_address):
     servers.append(Server(hostname, ip_address))
     return True
 
+def list_servers(servers):
+     if not servers:
+          print("No servers found")
+     for server in servers:
+          print(server)
