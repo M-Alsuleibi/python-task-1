@@ -15,9 +15,8 @@ def load_servers(filepath):
                 servers.append( Server(
                                 hostname=row["hostname"],
                                 ip_address=row["ip_address"],
-                                status=row["status"],)
+                                status=row["status"])
                                 )
-                print(row)
         return servers
     except FileNotFoundError:
                 print("Loading inventory... No existing inventory.csv found. Starting fresh.")
@@ -53,3 +52,14 @@ def list_servers(servers):
           print("No servers found")
      for server in servers:
           print(server)
+
+def toggle_server(servers, hostname, action):
+      # server_tmp = None
+    for server in servers:
+         if server.hostname == hostname:
+             if action == "start":
+                 server.start()
+             elif action == "stop":
+                 server.stop()
+             return server
+    return None

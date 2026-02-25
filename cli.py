@@ -1,4 +1,4 @@
-from inventory import load_servers, save_servers, INVENTORY_FILE, add_server, list_servers
+from inventory import load_servers, save_servers, INVENTORY_FILE, add_server, list_servers, toggle_server
 
 def show_menu():
     print("\n--- Server Inventory Menu ---")
@@ -20,6 +20,7 @@ def run():
         if choice == "1":
             hostname = input("Enter hostname: ").strip()
             ip_address = input("Enter ip address: ").strip()
+
             if not hostname or not ip_address:
                 print("Error, empty value not accepted")
                 continue
@@ -32,7 +33,22 @@ def run():
            list_servers(servers)
 
         elif choice == "3":
-            print("toggle server")
+            hostname = input("Enter the hostname of the server to toggle: ").strip()
+            action = input("Type 'start' or 'stop': ").strip()
+
+            if action != "start" and action != "stop":
+                print("Error: status must be 'start' or 'stop'")
+                continue
+            # server could be Server or None, called once, result stored
+            server = toggle_server(servers, hostname, action)
+
+            if not server:
+                print("server not found")
+                continue
+            # here the type checker knows that server is passed the (if not server) guard
+            # no AttributeError
+            print(f"Success! {hostname} is now {server.status}.")
+
         elif choice == "4":
             save_servers(INVENTORY_FILE, servers)
             print("Goodbye!")
