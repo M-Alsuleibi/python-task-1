@@ -3,7 +3,7 @@
 ### 1. Clone the repo
 ```
 git clone git@github.com:M-Alsuleibi/python-task-1.git
-cd server-inventory
+cd python-task-1
 ```
 ### 2. Create and activate virtual environment
 ```
