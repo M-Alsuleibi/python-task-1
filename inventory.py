@@ -1,5 +1,7 @@
 from server import Server
 import csv
+from exceptions import DuplicateHostnameError, DuplicateIPError, InvalidIPError
+import os
 
 INVENTORY_FILE = "inventory.csv"
 CSV_FIELDNAMES = ["hostname", "ip_address", "status"]
@@ -18,6 +20,7 @@ def load_servers(filepath):
                                 status=row["status"])
                                 )
         return servers
+
     except FileNotFoundError:
                 print("Loading inventory... No existing inventory.csv found. Starting fresh.")
                 return []
@@ -40,10 +43,25 @@ def save_servers(filepath, servers):
     except OSError as e:
          print(f"Error: Could not write to {filepath}: {e}")
 
+###
+def validate_ip(ip_address):
+    parts = ip_address.split(".")
+    if len(parts) != 4:
+        raise InvalidIPError(f"Invalid IP address: {ip_address}")
+    for part in parts:
+        if not part.isdigit():
+            raise InvalidIPError(f"Invalid IP address: {ip_address}")
+        if not 0 <= int(part) <= 255:
+            raise InvalidIPError(f"Invalid IP address: {ip_address}")
+
+
 def add_server(servers, hostname, ip_address):
+    validate_ip(ip_address)
     for server in servers:
         if server.hostname == hostname:
-            return False
+            raise DuplicateHostnameError(f"{hostname} already exists.")
+        if server.ip_address == ip_address:
+            raise DuplicateIPError(f"{ip_address} already exists.")
     servers.append(Server(hostname, ip_address))
     return True
 
