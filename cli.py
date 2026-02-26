@@ -1,4 +1,5 @@
 from inventory import load_servers, save_servers, INVENTORY_FILE, add_server, list_servers, toggle_server
+from exceptions import DuplicateHostnameError, DuplicateIPError, InvalidIPError
 
 def show_menu():
     print("\n--- Server Inventory Menu ---")
@@ -24,10 +25,16 @@ def run():
             if not hostname or not ip_address:
                 print("Error, empty value not accepted")
                 continue
-            if add_server(servers, hostname, ip_address):
-                print(f"Success! Added {hostname}")
-            else:
-                print(f"Error, {hostname} already exists")
+
+            try:
+                add_server(servers, hostname, ip_address)
+                print(f"Success! Added {hostname}.")
+            except InvalidIPError as e:
+                print(f"Error: {e}")
+            except DuplicateHostnameError as e:
+                print(f"Error: {e}")
+            except DuplicateIPError as e:
+                print(f"Error: {e}")
 
         elif choice == "2":
            list_servers(servers)
@@ -53,5 +60,6 @@ def run():
             save_servers(INVENTORY_FILE, servers)
             print("Goodbye!")
             break
+
         else:
             print("Error: Invalid choice. Enter 1, 2, 3, or 4.")
