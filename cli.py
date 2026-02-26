@@ -1,4 +1,4 @@
-from inventory import load_servers, save_servers, INVENTORY_FILE, add_server, list_servers, toggle_server
+from inventory import load_servers, save_servers, add_server, list_servers, toggle_server
 from exceptions import DuplicateHostnameError, DuplicateIPError, InvalidIPError
 
 def show_menu():
@@ -11,8 +11,8 @@ def show_menu():
 def get_choice():
     return input("\nEnter choice: ").strip()
 
-def run():
-    servers = load_servers(INVENTORY_FILE)
+def run(filepath):
+    servers = load_servers(filepath)
 
     while True:
         show_menu()
@@ -57,7 +57,7 @@ def run():
             print(f"Success! {hostname} is now {server.status}.")
 
         elif choice == "4":
-            save_servers(INVENTORY_FILE, servers)
+            save_servers(filepath, servers)
             print("Goodbye!")
             break
 

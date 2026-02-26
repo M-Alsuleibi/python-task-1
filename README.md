@@ -28,5 +28,13 @@ venv\Scripts\activate           # Windows
 ```
 ### 3. Run the program
 ```
+# default — uses inventory.csv
 python main.py
+
+# custom filename same directory
+python main.py myservers.csv
+
+# custom filename different directory (directory must exist)
+python main.py /tmp/servers.csv
+
 ```
